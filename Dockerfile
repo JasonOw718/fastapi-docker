@@ -4,7 +4,12 @@ WORKDIR /app
 
 # Copy and install dependencies first
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+
+RUN apt-get update
+RUN apt install -y libgl1-mesa-glx
+
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir --default-timeout=10000 -r requirements.txt
 
 # Then copy the rest of the application code
 COPY . .
